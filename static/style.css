@@ -1,0 +1,123 @@
+/* static/style.css */
+
+/* 1. Include Tailwind CSS for utility classes */
+@import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+
+/* 2. Custom Variables and Styles */
+
+:root {
+    --primary-blue: #2563eb; /* Website's primary blue color */
+    --darker-blue: #1d4ed8;
+    --secondary-green: #10b981;
+}
+
+body {
+    /* light blue gradient background */
+    background: linear-gradient(to bottom, #f0f8ff 0%, #e0f7fa 100%);
+}
+
+/* Product Card */
+.product-card {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.image-container {
+    height: 14rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    overflow: hidden; 
+}
+
+/* New: Add pointer cursor for clickable images */
+.image-container.cursor-pointer {
+    cursor: pointer;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    background-color: #f3f4f6;
+}
+
+.product-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.product-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #f3f4f6;
+}
+
+.product-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.product-per-unit {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-left: 0.25rem;
+}
+
+.buy-button {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 150ms ease-in-out;
+    cursor: pointer;
+}
+
+.buy-button:hover {
+    background-color: var(--darker-blue);
+}
+
+.main-header {
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+.main-footer {
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+/* CRITICAL: Styling for the n8n Chat Widget to match the primary color */
+.n8n-chat-header, .n8n-chat-toggle {
+    background-color: var(--primary-blue) !important; 
+    color: #ffffff !important;
+}
+
+.n8n-chat-toggle:hover {
+    background-color: var(--darker-blue) !important;
+}

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nestlé Water Distribution - Premium Water Solutions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+   <header class="main-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-8 h-8 text-white" viewBox="0 0 24 24">
+                <path d="M12 2.1c-2.9 0-5.7 1.5-7.5 4.1-1.7 2.6-2.2 5.9-1.4 8.7C4.6 18.2 8.3 22 12 22s7.4-3.8 8.9-7.1c.8-2.8.3-6.1-1.4-8.7C17.7 3.6 14.9 2.1 12 2.1ZM12 19.8c-2.3-3.6-4.5-6.5-4.5-9.2C7.5 7.4 9.5 5.4 12 5.4s4.5 2 4.5 5.2c0 2.7-2.2 5.6-4.5 9.2Z"/>
+            </svg>
+            <div class="flex flex-col">
+                <span class="text-xl font-bold text-white">Nestlé Water Distribution</span>
+                <span class="text-xs text-gray-200">Pure & Refreshing Quality</span>
+            </div>
+        </div>
+
+        <nav>
+            <ul class="flex space-x-6">
+                <li>
+                    <a href="#" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Home</a>
+                </li>
+                <!-- <li>
+                    <a href="#" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Inventory</a> -->
+                <!-- </li> -->
+                <!-- <li>
+                    <a href="#" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Contact</a>
+                </li> -->
+            </ul>
+        </nav>
+    </div>
+</header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="text-center mb-12 pt-8">
+            <h1 class="text-4xl md:text-5xl font-light text-gray-800 mb-4">Premium Water Solutions</h1>
+            <p class="text-lg text-gray-600">
+                Choose from our range of high-quality Nestlé Pure Life water products.
+            </p>
+        </div>
+        
+        <div class="bg-blue-50 border-l-4 border-primary-blue p-4 mb-8 rounded-lg shadow-xl">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-blue mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <div>
+                    <p class="text-sm font-bold text-gray-900">
+                        💧 Order Instructions:
+                    </p>
+                    <p class="text-base text-gray-700 mt-1">
+                        To place an order, please click the Chat Button <span class="text-red-500 font-extrabold">(🔴)</span> located in the bottom-right corner of your screen to proceed with our Order Assistant.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="product-card">
+                <div class="mb-4">
+                    <div class="image-container cursor-pointer" onclick="openChat()">
+                        <img src="{{ url_for('static', filename='images/500ml-bottle.jpg') }}" alt="Nestlé Pure Life 500 ml Bottle" class="product-image">
+                    </div>
+                    <h2 class="product-title">Nestlé Water Pure Life 500 ml</h2>
+                    <p class="product-subtitle">500 ml</p>
+                </div>
+                <div class="product-footer">
+                    <p class="product-price">Rs 50<span class="product-per-unit"> per unit</span></p>
+                    <button class="buy-button" onclick="openChat()">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="mb-4">
+                    <div class="image-container cursor-pointer" onclick="openChat()">
+                        <img src="{{ url_for('static', filename='images/1500ml-bottle.jpg') }}" alt="Nestlé Pure Life 1500 ml Bottle" class="product-image">
+                    </div>
+                    <h2 class="product-title">Nestlé Water Pure Life 1500 ml</h2>
+                    <p class="product-subtitle">1500 ml</p>
+                </div>
+                <div class="product-footer">
+                    <p class="product-price">Rs 100<span class="product-per-unit"> per unit</span></p>
+                    <button class="buy-button" onclick="openChat()">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="mb-4">
+                    <div class="image-container cursor-pointer" onclick="openChat()">
+                        <img src="{{ url_for('static', filename='images/5litre-jar.jpg') }}" alt="Nestlé Pure Life 5 Litre Jar" class="product-image">
+                    </div>
+                    <h2 class="product-title">Nestlé Water Pure Life 5 Litre</h2>
+                    <p class="product-subtitle">5 Litre</p>
+                </div>
+                <div class="product-footer">
+                    <p class="product-price">Rs 200<span class="product-per-unit"> per unit</span></p>
+                    <button class="buy-button" onclick="openChat()">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="mb-4">
+                    <div class="image-container cursor-pointer" onclick="openChat()">
+                        <img src="{{ url_for('static', filename='images/19litre-dispenser.jpg') }}" alt="Nestlé Pure Life 19 Litre Dispenser" class="product-image">
+                    </div>
+                    <h2 class="product-title">Nestlé Water Pure Life 19 Litre</h2>
+                    <p class="product-subtitle">19 Litre</p>
+                </div>
+                <div class="product-footer">
+                    <p class="product-price">Rs 500<span class="product-per-unit"> per unit</span></p>
+                    <button class="buy-button" onclick="openChat()">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer text-center">
+        <p class="text-sm">© 2025 Nestlé Water Distribution. All Rights Reserved.</p>
+    </footer>
+
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <div id="n8n-chat"></div>
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+        // 1. Initialize the chat widget
+        createChat({
+            // webhookUrl: 'https://faisalshah.duckdns.org/webhook/9e9531cf-f80d-4c66-821c-d59c7e26ec58/chat',
+            webhookUrl: 'https://jamika-unoffended-nonevangelically.ngrok-free.dev/webhook/60ed0f66-b0ed-4fba-b2bf-fc34e2cbb3dd/chat',
+            target: '#n8n-chat',
+            mode: 'window',
+            chatInputKey: 'chatInput',
+            chatSessionKey: 'sessionId',
+            loadPreviousSession: true,
+            metadata: {},
+            showWelcomeScreen: true,
+            defaultLanguage: 'en',
+            initialMessages: [
+                'Hi there! 👋',
+                'I am your Order Assistant. How can I help you today?'
+            ],
+            i18n: {
+                en: {
+                    title: 'Order Assistant 🛒',
+                    subtitle: "Ask me about products, orders, and bulk requests!",
+                    footer: '',
+                    getStarted: 'New Conversation',
+                    inputPlaceholder: 'Type your question here...',
+                },
+            },
+            enableStreaming: false,
+        });
+
+        // 2. JavaScript function to open chat reliably (Kept at 3000ms delay for Buy Now buttons)
+        window.openChat = function() {
+            setTimeout(() => {
+                const toggleButton = document.querySelector('.n8n-chat-toggle');
+                if (toggleButton) {
+                    toggleButton.click();
+                } else {
+                    console.error("N8N Chat toggle button not found after delay.");
+                }
+            }, 3000); 
+        };
+    </script>
+
+</body>
+</html>
