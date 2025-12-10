@@ -3,21 +3,23 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import os 
 import sys # For clean exit on critical error
+import json # REQUIRED: To parse JSON string from environment variable
 
 # Initialize the Flask application
 app = Flask(__name__)
 
 # --- Google Sheets Configuration ---
 
-# 1. IMPORTANT: Replace this path if your credential file is located elsewhere.
+# 1. Credentials File/Key Name Configuration
 SERVICE_ACCOUNT_FILE = 'credential.json' 
+GOOGLE_SHEETS_ENV_VAR = 'GOOGLE_SHEETS_CREDENTIALS' # Name of the Vercel Environment Variable
 
-# 2. EXACT Spreadsheet Name from the screenshot title bar
+# 2. EXACT Spreadsheet Name
 SHEET_NAME = 'Nestle Water Distribution Original' 
-# 3. EXACT Worksheet Tab Name from the screenshot bottom tabs
+# 3. EXACT Worksheet Tab Name
 WORKSHEET_NAME = 'Stock Register' 
 
-# Define API access scope for reading sheets
+# Define API access scope (read-only)
 SCOPE = [
     'https://www.googleapis.com/auth/spreadsheets.readonly',
     'https://www.googleapis.com/auth/drive.readonly'
@@ -28,18 +30,28 @@ CLIENT = None
 
 # Check for credentials and attempt connection upon app startup
 try:
-    if not os.path.exists(SERVICE_ACCOUNT_FILE):
-        # Exit if the critical file is missing
-        print(f"CRITICAL ERROR: Credential file not found at: {SERVICE_ACCOUNT_FILE}")
-        sys.exit(1) # Exit application immediately
+    if os.environ.get(GOOGLE_SHEETS_ENV_VAR):
+        # METHOD A (Vercel Production): Load from Environment Variable
+        creds_json = json.loads(os.environ.get(GOOGLE_SHEETS_ENV_VAR))
+        CREDS = ServiceAccountCredentials.from_json_keyfile_dict(creds_json, SCOPE)
+        print("Google Sheets API connection established successfully via VERCEL ENV.")
+
+    elif os.path.exists(SERVICE_ACCOUNT_FILE):
+        # METHOD B (Local Development): Load from local file
+        CREDS = ServiceAccountCredentials.from_json_keyfile_name(SERVICE_ACCOUNT_FILE, SCOPE)
+        print("Google Sheets API connection established successfully via LOCAL FILE.")
+    
+    else:
+        # Critical failure if neither found
+        print(f"CRITICAL ERROR: Credentials not found. Neither {SERVICE_ACCOUNT_FILE} nor Vercel ENV var '{GOOGLE_SHEETS_ENV_VAR}' is set.")
+        sys.exit(1)
         
-    CREDS = ServiceAccountCredentials.from_json_keyfile_name(SERVICE_ACCOUNT_FILE, SCOPE)
     CLIENT = gspread.authorize(CREDS)
-    print("Google Sheets API connection established successfully.")
     
 except Exception as e:
     print(f"CRITICAL ERROR: Failed to authorize Google Sheets API. Check credentials or sharing permissions. Error: {e}")
     CLIENT = None # Ensure client is None if auth fails
+    # Do not sys.exit(1) here on Vercel, allow the app to run with an error state
 
 # --- Routes ---
 
@@ -64,7 +76,6 @@ def inventory():
         worksheet = spreadsheet.worksheet(WORKSHEET_NAME) 
         
         # 3. Fetch all data as a list of dictionaries (records)
-        #    NOTE: Keys in 'data' will match the header names in Row 1 of your sheet (e.g., 'product_name', 'SIZE').
         data = worksheet.get_all_records() 
         
         # 4. Render the template and pass the fetched data
