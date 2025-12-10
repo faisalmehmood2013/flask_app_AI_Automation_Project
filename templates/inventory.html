@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Inventory - Nestlé Water Distribution</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <header class="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-8 h-8 text-white" viewBox="0 0 24 24">
+                    <path d="M12 2.1c-2.9 0-5.7 1.5-7.5 4.1-1.7 2.6-2.2 5.9-1.4 8.7C4.6 18.2 8.3 22 12 22s7.4-3.8 8.9-7.1c.8-2.8.3-6.1-1.4-8.7C17.7 3.6 14.9 2.1 12 2.1ZM12 19.8c-2.3-3.6-4.5-6.5-4.5-9.2C7.5 7.4 9.5 5.4 12 5.4s4.5 2 4.5 5.2c0 2.7-2.2 5.6-4.5 9.2Z"/>
+                </svg>
+                <div class="flex flex-col">
+                    <span class="text-xl font-bold text-white">Nestlé Water Distribution</span>
+                    <span class="text-xs text-gray-200">Pure & Refreshing Quality</span>
+                </div>
+            </div>
+
+            <nav>
+                <ul class="flex space-x-6">
+                    <li>
+                        <a href="{{ url_for('index') }}" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('inventory') }}" class="text-white border-b-2 border-white font-bold transition duration-150 ease-in-out">Inventory</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="text-center mb-12 pt-8">
+            <h1 class="text-4xl md:text-5xl font-light text-gray-800 mb-4">Live Inventory Stock Register</h1>
+            <p class="text-lg text-gray-600">
+                Current stock status for all Nestlé Pure Life products, updated live from Google Sheets.
+            </p>
+        </div>
+
+        <div class="bg-red-100 border-l-4 border-red-700 p-4 mb-8 rounded-lg shadow-xl">
+            <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-700 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div>
+                    <p class="text-sm font-bold text-gray-900">
+                        🔒 Page Access Warning (For Owner/Manager Only):
+                    </p>
+                    <p class="text-base text-red-800 mt-1">
+                        This chatbot button is for internal company management (Owner/Manager) to place a purchase order with the supplier only. This is not for general customer use or public ordering.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-blue-50 border-l-4 border-indigo-600 p-4 mb-8 rounded-lg shadow-xl">
+            <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z" />
+                </svg>
+                <div>
+                    <p class="text-sm font-bold text-gray-900">
+                        ✍️ Purchase Order (PO) Instructions for Management:
+                    </p>
+                    <p class="text-base text-gray-700 mt-1">
+                        To place a Purchase Order (PO) with the supplier, Company Owners/Managers must click the Chat Button <span class="text-red-500 font-extrabold">(🔴)</span> in the bottom-right corner.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        {% if error_message %}
+            <div class="bg-red-500 text-white p-4 mb-8 rounded-lg shadow-xl">
+                <p class="font-bold">Connection Error!</p>
+                <p>{{ error_message }}</p>
+            </div>
+        {% endif %}
+
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Product Name
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Size
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Current Stock (Units)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Reorder Level
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    
+                    {% if sheet_data %}
+                        {% for item in sheet_data %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    {{ item.product_name }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ item.size }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ item.current_stock }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ item.reorder_level }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if item.current_stock | int < item.reorder_level | int %}
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                            Low Stock!
+                                        </span>
+                                    {% else %}
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            In Stock
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center text-lg text-red-500">
+                                {% if error_message %}
+                                    Error loading data: {{ error_message }}
+                                {% else %}
+                                    No live inventory data available. Check your Google Sheet data and connection settings.
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+    
+    <footer class="main-footer text-center">
+        <p class="text-sm">© 2025 Nestlé Water Distribution. All Rights Reserved.</p>
+    </footer>
+
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    // 1. Initialize the chat widget with Purchase Order Assistant settings
+    createChat({
+        // NOTE: Please ensure this ngrok URL is currently active. If it expires, the chat will not work.
+        webhookUrl: 'https://jamika-unoffended-nonevangelically.ngrok-free.dev/webhook/60ed0f66-b0ed-4fba-b2bf-fc34e2cbb3dd/chat',
+        // target: '#n8n-chat', // Removed, as we want the default floating button
+        mode: 'window',
+        chatInputKey: 'chatInput',
+        chatSessionKey: 'sessionId',
+        loadPreviousSession: true,
+        metadata: {},
+        showWelcomeScreen: true,
+        defaultLanguage: 'en',
+        initialMessages: [
+            'Hi there! 👋',
+            'I am your **Purchase Order Assistant** (PO Assistant).',
+            'How can I help you place your order with the supplier today?'
+        ],
+        i18n: {
+            en: {
+                title: 'Purchase Order Assistant 🛒',
+                subtitle: "Manager's tool for supplier requests and bulk orders.",
+                footer: 'Internal Company Tool',
+                getStarted: 'Start New PO Request',
+                inputPlaceholder: 'Type your order request here...',
+            },
+        },
+        enableStreaming: false,
+    });
+
+    // NOTE: If you are not using a specific 'Buy Now' button and rely only on the floating button, 
+    // you do not need the window.openChat function, but I am including it as it was in your format.
+    window.openChat = function() {
+        setTimeout(() => {
+            const toggleButton = document.querySelector('.n8n-chat-toggle');
+            if (toggleButton) {
+                toggleButton.click();
+            } else {
+                console.error("N8N Chat toggle button not found after delay.");
+            }
+        }, 3000); 
+    };
+</script>
+    
+    </body>
+</html>
