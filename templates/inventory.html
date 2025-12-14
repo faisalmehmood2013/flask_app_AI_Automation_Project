@@ -23,9 +23,11 @@
 
             <nav>
                 <ul class="flex space-x-6">
-                    <li>
-                        <a href="{{ url_for('index') }}" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Home</a>
-                    </li>
+                    <!-- <li>
+                        <a href="{{ url_for('orders') }}" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Orders</a>
+                    </li> -->
+                    <li><a href="{{ url_for('dashboard') }}" class="text-white border-b-2 border-white font-bold transition duration-150 ease-in-out">Dashboard</a></li>
+
                     <li>
                         <a href="{{ url_for('inventory') }}" class="text-white border-b-2 border-white font-bold transition duration-150 ease-in-out">Inventory</a>
                     </li>
@@ -159,7 +161,7 @@
     // 1. Initialize the chat widget with Purchase Order Assistant settings
     createChat({
         // NOTE: Please ensure this ngrok URL is currently active. If it expires, the chat will not work.
-        webhookUrl: 'https://jamika-unoffended-nonevangelically.ngrok-free.dev/webhook/60ed0f66-b0ed-4fba-b2bf-fc34e2cbb3dd/chat',
+        webhookUrl: 'https://faisalshah.duckdns.org/webhook/963ca52c-6184-46c5-8611-33d63c275c4d/chat',
         // target: '#n8n-chat', // Removed, as we want the default floating button
         mode: 'window',
         chatInputKey: 'chatInput',

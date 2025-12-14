@@ -24,15 +24,18 @@
 
         <nav>
             <ul class="flex space-x-6">
+                <!-- <li>
+                    <a href="{{ url_for('dashboard') }}" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Dashboard</a>
+                </li> -->
                 <li>
-                    <a href="#" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Home</a>
-                </li>
-                <li>
-                    <a href="{{ url_for('inventory') }}" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Inventory</a>
+                    <a href="orders" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Orders</a>
                 </li>
                 <!-- <li>
-                    <a href="#" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Contact</a>
+                    <a href="{{ url_for('inventory') }}" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Inventory</a>
                 </li> -->
+                <li>
+                    <a href="contact" class="text-white hover:text-gray-300 font-medium transition duration-150 ease-in-out">Contact</a>
+                </li>
             </ul>
         </nav>
     </div>
@@ -132,7 +135,7 @@
         // 1. Initialize the chat widget
         createChat({
             // webhookUrl: 'https://faisalshah.duckdns.org/webhook/9e9531cf-f80d-4c66-821c-d59c7e26ec58/chat',
-            webhookUrl: 'https://jamika-unoffended-nonevangelically.ngrok-free.dev/webhook/60ed0f66-b0ed-4fba-b2bf-fc34e2cbb3dd/chat',
+            webhookUrl: 'https://faisalshah.duckdns.org/webhook/60ed0f66-b0ed-4fba-b2bf-fc34e2cbb3dd/chat',
             target: '#n8n-chat',
             mode: 'window',
             chatInputKey: 'chatInput',
