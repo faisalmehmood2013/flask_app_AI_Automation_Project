@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 💧 Nestlé Water Distribution Management System (AI Automation Project)
 
 This project is a modern and efficient web application for Nestlé Water Distribution, built using **Flask** and **Tailwind CSS**. It is designed to streamline inventory tracking, order processing, and communication through the integration of AI Automation components (Chatbot and Webhooks).
@@ -30,3 +31,6 @@ nestle-distribution-system
 └── static/                     # Static Assets
     ├── style.css               # CSS Styling (Tailwind Output)
     └── images/                 # Project assets and product images
+=======
+# AI Automation Retail Business
+>>>>>>> 311dfce86b2388fc1c4585ba13f4be3615500b8b
