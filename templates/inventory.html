@@ -22,27 +22,11 @@
             padding: 1rem 0;
         }
         
-        /* Table Styling for better readability */
-        .inventory-table-container {
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-            /* Ensure horizontal scrolling is possible on small screens */
-            overflow-x: auto; 
-        }
-        .inventory-table-container table {
-            min-width: 800px; /* Increased min-width for better display of columns */
-            width: 100%; 
-            border-collapse: collapse; /* Ensure clean borders */
-        }
-        .inventory-table-container thead {
-            background-color: #f3f4f6;
-        }
-
         /* Status Pills */
         .status-low { background-color: #fee2e2; color: #b91c1c; font-weight: 600; border: 1px solid #fca5a5; }
         .status-ok { background-color: #d1fae5; color: #059669; font-weight: 600; border: 1px solid #6ee7b7; }
         
-        /* Ensure main content is centered and responsive */
+        /* Ensure main content is centered and responsive padding */
         .main-content-container {
             max-width: 90rem;
             margin-left: auto;
@@ -56,6 +40,36 @@
                 padding-right: 1.5rem;
             }
         }
+
+        /* --- MOBILE CARD VIEW CSS (New Addition) --- */
+
+        /* Hide the card view on large screens */
+        .card-inventory-view {
+            display: block;
+        }
+        /* Hide the traditional table on small screens */
+        .table-inventory-view {
+            display: none;
+        }
+
+        /* Show the traditional table on screens >= 640px (sm) */
+        @media (min-width: 640px) {
+            .table-inventory-view {
+                display: block;
+            }
+            .card-inventory-view {
+                display: none;
+            }
+        }
+        /* Table Styling for better readability (used for desktop view) */
+        .table-inventory-view table {
+            width: 100%; 
+            border-collapse: collapse; 
+        }
+        .table-inventory-view thead {
+            background-color: #f3f4f6;
+        }
+
     </style>
 </head>
 
@@ -69,7 +83,8 @@
                 </svg>
                 <div class="flex flex-col">
                     <span class="text-xl font-bold text-white">Nestlé Water Distribution</span>
-                    <span class="text-xs text-gray-200">Pure & Refreshing Quality</span> </div>
+                    <span class="text-xs text-gray-200">Pure & Refreshing Quality</span>
+                </div>
             </div>
 
             <nav class="hidden md:block">
@@ -129,23 +144,66 @@
             </div>
         {% endif %}
 
-        <div class="inventory-table-container">
-            <table class="min-w-full divide-y divide-gray-200">
+        <div class="card-inventory-view space-y-4">
+        {% if sheet_data %}
+            {% for item in sheet_data %}
+            <div class="bg-white p-4 rounded-lg shadow-md border-l-4 
+                {% if item.current_stock | int < item.reorder_level | int %}border-red-500{% else %}border-green-500{% endif %}">
+                
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-bold text-gray-900">{{ item.product_name }}</h3>
+                    {% if item.current_stock | int < item.reorder_level | int %}
+                        <span class="px-3 py-1 inline-flex text-xs leading-5 status-low rounded-full">
+                            Low Stock!
+                        </span>
+                    {% else %}
+                        <span class="px-3 py-1 inline-flex text-xs leading-5 status-ok rounded-full">
+                            In Stock
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="text-sm text-gray-600 space-y-1">
+                    <div class="flex justify-between border-t pt-2">
+                        <span class="font-medium">Size:</span>
+                        <span class="text-gray-800">{{ item.size }}</span>
+                    </div>
+                    <div class="flex justify-between border-t pt-2">
+                        <span class="font-medium">Current Stock (Units):</span>
+                        <span class="font-semibold text-gray-700">{{ item.current_stock }}</span>
+                    </div>
+                    <div class="flex justify-between border-t pt-2">
+                        <span class="font-medium">Reorder Level:</span>
+                        <span class="text-gray-500">{{ item.reorder_level }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+             <div class="px-6 py-12 text-center text-lg text-red-500 bg-white rounded-lg shadow-md">
+                No live inventory data available. Check your Google Sheet data and connection settings.
+            </div>
+        {% endif %}
+        </div>
+
+
+        <div class="table-inventory-view inventory-table-container">
+            <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-lg overflow-hidden">
                 <thead>
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider w-1/3">
                             Product Name
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider w-0 min-w-fit">
                             Size
                         </th>
-                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider w-0 min-w-fit">
                             Current Stock (Units)
                         </th>
-                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider w-0 min-w-fit">
                             Reorder Level
                         </th>
-                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider w-0 min-w-fit">
                             Status
                         </th>
                     </tr>
@@ -155,7 +213,7 @@
                     {% if sheet_data %}
                         {% for item in sheet_data %}
                             <tr class="{% if item.current_stock | int < item.reorder_level | int %}bg-red-50{% else %}hover:bg-gray-50{% endif %}">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                <td class="px-6 py-4 text-sm font-medium text-gray-900">
                                     {{ item.product_name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -183,11 +241,7 @@
                     {% else %}
                         <tr>
                             <td colspan="5" class="px-6 py-12 text-center text-lg text-red-500 bg-white">
-                                {% if error_message %}
-                                    Error loading data: {{ error_message }}
-                                {% else %}
-                                    No live inventory data available. Check your Google Sheet data and connection settings.
-                                {% endif %}
+                                Error loading data: {{ error_message }}
                             </td>
                         </tr>
                     {% endif %}
@@ -206,7 +260,6 @@
 
     // 1. Initialize the chat widget with Purchase Order Assistant settings
     createChat({
-        // NOTE: Please ensure this webhookUrl is active
         webhookUrl: 'https://faisalshah.duckdns.org/webhook/963ca52c-6184-46c5-8611-33d63c275c4d/chat',
         mode: 'window',
         chatInputKey: 'chatInput',
